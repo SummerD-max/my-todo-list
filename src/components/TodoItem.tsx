@@ -31,7 +31,7 @@ function TodoItem({
   }
 
   return (
-    <div className="grid grid-cols-12 items-center gap-1 py-2 sm:gap-2">
+    <div className="grid grid-cols-12 items-center gap-3 py-2 sm:gap-2">
       <TodoCheckbox status={item.status} onTick={handleTick} />
       <TodoStatus status={item.status} />
       <TodoName

@@ -38,7 +38,7 @@ function TodoName({
 
   if (isEditing) {
     return (
-      <div className="col-span-7 sm:col-span-7">
+      <div className="col-span-9 sm:col-span-7">
         <input
           ref={inputRef}
           type="text"
@@ -57,7 +57,7 @@ function TodoName({
   return (
     <div
       onClick={onToggleEdit}
-      className="col-span-7 flex cursor-pointer flex-col justify-center sm:col-span-7"
+      className="col-span-9 flex cursor-pointer flex-col justify-center sm:col-span-7"
     >
       <span className="font-semibold text-green-700 dark:text-green-300">
         {name || (
