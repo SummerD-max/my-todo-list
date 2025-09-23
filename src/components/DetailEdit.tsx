@@ -20,7 +20,7 @@ function DetailEdit({ detail, reminderTime, saveDetail }: DetailEditProps) {
     <div className="flex h-full flex-col gap-3">
       {/* detail */}
       <textarea
-        className="min-h-40 w-full resize-none rounded-2xl border-2 border-green-600 px-4 py-2 text-green-700 focus:outline-none dark:bg-gray-800 dark:text-green-400 dark:placeholder:text-gray-600"
+        className="min-h-40 w-full resize-none rounded-2xl border-2 border-green-600 bg-white px-4 py-2 text-green-900 placeholder:text-gray-400 focus:outline-none dark:bg-gray-800 dark:text-green-400 dark:placeholder:text-gray-400"
         placeholder="Add more details here~ Press 'Enter' to save"
         value={newDetail}
         onChange={(e) => setNewDetail(e.target.value)}

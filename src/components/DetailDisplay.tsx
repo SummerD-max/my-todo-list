@@ -15,8 +15,8 @@ function DetailDisplay({
   return (
     <>
       <div className="flex items-center justify-center gap-7">
-        <div className="flex-1 text-center text-xl font-semibold break-all text-green-700">
-          {detail}
+        <div className="flex-1 text-center text-xl font-semibold break-all text-gray-950 dark:text-white">
+          {detail ? detail : "No details provided."}
         </div>
         <button
           className="flex-none cursor-pointer rounded-sm border-2 border-green-700 px-3 py-1 font-semibold text-green-700 uppercase transition-colors duration-300 hover:bg-green-700 hover:text-green-50"

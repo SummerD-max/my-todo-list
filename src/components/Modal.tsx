@@ -118,7 +118,7 @@ function Window({ id, children }: WindowProps) {
             key="modal"
             ref={ref}
             onClick={(e) => e.stopPropagation()}
-            className="relative flex h-[70vh] w-5/6 max-w-lg flex-col rounded-2xl border-2 border-green-100 bg-green-100/50 p-4 text-green-700 shadow-2xl"
+            className="relative flex h-[70vh] w-full max-w-lg flex-col rounded-2xl border-2 border-gray-900 p-4 shadow-2xl dark:border-white"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
@@ -140,7 +140,7 @@ function Window({ id, children }: WindowProps) {
               )}
             </div>
 
-            {/* ESC hint */}
+            {/* ESC */}
             <div className="p-4 text-center">
               <p className="text-sm text-gray-400">PRESS "ESC" to close</p>
             </div>
