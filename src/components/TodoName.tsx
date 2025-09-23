@@ -43,9 +43,9 @@ function TodoName({
           ref={inputRef}
           type="text"
           defaultValue={name}
-          onBlur={(e) => handleSave(e.target.value)}
+          onBlur={(e) => handleSave(e.currentTarget.value)}
           onKeyDown={(e) => {
-            if (e.key === "Enter") handleSave(e.target.value);
+            if (e.key === "Enter") handleSave(e.currentTarget.value);
             if (e.key === "Escape") onToggleEdit();
           }}
           className="w-full rounded-sm bg-transparent font-semibold text-green-700 ring-1 ring-green-600 outline-none dark:text-green-300"
