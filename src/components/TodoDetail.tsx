@@ -1,9 +1,7 @@
 import { useState } from "react";
 import type { TodoItem as TodoItemType } from "../types";
-import DatePicker from "react-datepicker";
 // 1. 在这里导入 DatePicker 的 CSS
-import { HiClock } from "react-icons/hi2";
-import { format } from "date-fns";
+
 import DetailDisplay from "./DetailDisplay";
 import DetailEdit from "./DetailEdit";
 
