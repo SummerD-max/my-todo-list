@@ -20,12 +20,12 @@ function TodoActions({
   onMoveDown,
 }: TodoActionsProps) {
   return (
-    <div className="col-span-3 flex items-center justify-end gap-2">
+    <div className="col-span-2 flex items-center justify-end gap-1">
       {/* Details Modal */}
       <Modal>
         <Modal.Open id={`${item.id}-details`}>
-          <button className="text-lime-500 underline transition-all hover:text-lime-600 hover:no-underline">
-            <HiEye />
+          <button className="cursor-pointer text-lime-500 underline transition-all hover:text-lime-600 hover:no-underline">
+            <HiEye size={16} />
           </button>
         </Modal.Open>
         <Modal.Window id={`${item.id}-details`}>
@@ -34,8 +34,8 @@ function TodoActions({
 
         {/* Delete Modal */}
         <Modal.Open id={`${item.id}-confirmDelete`}>
-          <button className="text-red-400 transition-all hover:text-red-600">
-            <HiTrash />
+          <button className="cursor-pointer text-red-400 transition-all hover:text-red-600">
+            <HiTrash size={16} />
           </button>
         </Modal.Open>
         <Modal.Window id={`${item.id}-confirmDelete`}>
@@ -47,13 +47,13 @@ function TodoActions({
       <div className="flex flex-col gap-1">
         <button
           onClick={() => onMoveUp(item)}
-          className="rounded-sm bg-green-700 p-0.5 text-white transition-all hover:bg-green-600"
+          className="cursor-pointer rounded-sm bg-green-700 p-0.5 text-white transition-all hover:bg-green-600"
         >
           <HiArrowUp size={16} />
         </button>
         <button
           onClick={() => onMoveDown(item)}
-          className="rounded-sm bg-green-700 p-0.5 text-white transition-all hover:bg-green-600"
+          className="cursor-pointer rounded-sm bg-green-700 p-0.5 text-white transition-all hover:bg-green-600"
         >
           <HiArrowDown size={16} />
         </button>

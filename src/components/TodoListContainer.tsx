@@ -26,16 +26,16 @@ function TodoListContainer() {
     return [];
   });
 
-  const [editItemId, setEditItemId] = useState(-1);
-  const [URLSearchParams] = useSearchParams();
-  const currentFilter = URLSearchParams.get("status") || "all";
-
   useEffect(
     function () {
       localStorage.setItem("todoList", JSON.stringify(todoList));
     },
     [todoList],
   );
+
+  const [editItemId, setEditItemId] = useState(-1);
+  const [URLSearchParams] = useSearchParams();
+  const currentFilter = URLSearchParams.get("status") || "all";
 
   // Sort by status: doing first, then done
   const sortedTodoList = [...todoList].sort((a, b) => {
@@ -91,11 +91,13 @@ function TodoListContainer() {
   const moveUpItem = (itemToMove: TodoItemType) => {
     const index = todoList.findIndex((item) => item.id === itemToMove.id);
 
-    if (
-      index === 0 ||
-      index === undefined ||
-      todoList[index].status !== todoList[index - 1].status
-    ) {
+    if (index === 0 || index === undefined) {
+      toast.error("Already the first item!");
+      return;
+    }
+
+    if (todoList[index].status !== todoList[index - 1].status) {
+      toast.error("Cannot move across different status groups!");
       return;
     }
 
@@ -110,12 +112,15 @@ function TodoListContainer() {
   const moveDownItem = (itemToMove: TodoItemType) => {
     const index = todoList.findIndex((item) => item.id === itemToMove.id);
 
-    if (
-      index === todoList.length ||
-      index === undefined ||
-      todoList[index].status !== todoList[index + 1].status
-    )
+    if (index === todoList.length || (index === 0 && todoList.length === 1)) {
+      toast.error("Already the last item!");
       return;
+    }
+
+    if (todoList[index].status !== todoList[index + 1].status) {
+      toast.error("Cannot move across different status groups!");
+      return;
+    }
 
     console.log("move down!");
 
@@ -131,7 +136,9 @@ function TodoListContainer() {
     <>
       <Filter />
 
-      <AddButton AddTodoItem={AddTodoItem} todoList={todoList} />
+      <div className="mt-5">
+        <AddButton AddTodoItem={AddTodoItem} todoList={todoList} />
+      </div>
 
       <Modal>
         <ul className="mt-2 divide-y-1 divide-black/20 dark:divide-white/20">

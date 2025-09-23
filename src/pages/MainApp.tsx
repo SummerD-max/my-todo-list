@@ -22,7 +22,7 @@ function MainApp() {
         </div>
       </header>
 
-      <main className="w-2/3 max-w-3xl px-3">
+      <main className="mt-4 w-full max-w-3xl px-3">
         <TodoListContainer />
       </main>
     </div>
