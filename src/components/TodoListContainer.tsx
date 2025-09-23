@@ -1,12 +1,12 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import TodoItem from "./TodoItem";
-import { HiMiniPlus } from "react-icons/hi2";
-import Modal from "./Modal";
-import { useSearchParams } from "react-router";
-import Filter from "./Filter";
-import type { TodoItem as TodoItemType } from "../types";
 import toast from "react-hot-toast";
+import { useSearchParams } from "react-router";
+import type { TodoItem as TodoItemType } from "../types";
+import AddButton from "./AddButton";
+import Filter from "./Filter";
+import Modal from "./Modal";
+import TodoItem from "./TodoItem";
 
 function TodoListContainer() {
   const [todoList, setTodoList] = useState<TodoItemType[]>(function () {
@@ -26,6 +26,10 @@ function TodoListContainer() {
     return [];
   });
 
+  const [editItemId, setEditItemId] = useState(-1);
+  const [URLSearchParams] = useSearchParams();
+  const currentFilter = URLSearchParams.get("status") || "all";
+
   useEffect(
     function () {
       localStorage.setItem("todoList", JSON.stringify(todoList));
@@ -33,11 +37,7 @@ function TodoListContainer() {
     [todoList],
   );
 
-  const [editItemId, setEditItemId] = useState(-1);
-  const [URLSearchParams] = useSearchParams();
-  const currentFilter = URLSearchParams.get("status") || "all";
-
-  // 排序：doing在前，done在后
+  // Sort by status: doing first, then done
   const sortedTodoList = [...todoList].sort((a, b) => {
     const statusOrder = { doing: 1, done: 2 };
     return statusOrder[a.status] - statusOrder[b.status];
@@ -131,12 +131,7 @@ function TodoListContainer() {
     <>
       <Filter />
 
-      <button
-        className="flex cursor-pointer items-center justify-center self-start rounded-full bg-green-600 text-gray-100 shadow-2xl transition-all duration-300 hover:bg-green-200 hover:text-green-700"
-        onClick={AddTodoItem}
-      >
-        <HiMiniPlus size={24} />
-      </button>
+      <AddButton AddTodoItem={AddTodoItem} todoList={todoList} />
 
       <Modal>
         <ul className="mt-2 divide-y-1 divide-black/20 dark:divide-white/20">
