@@ -9,16 +9,28 @@ import Modal from "./Modal";
 import TodoItem from "./TodoItem";
 import Menu from "./Menu";
 
+const STATUS_RANK = {
+  doing: 2,
+  done: 1,
+};
+
 function TodoListContainer() {
   const [todoList, setTodoList] = useState<TodoItemType[]>(function () {
     const savedData = localStorage.getItem("todoList");
     if (savedData) {
       try {
         const parsedData = JSON.parse(savedData);
-        return parsedData.map((item: TodoItemType) => ({
-          ...item,
-          reminderTime: item.reminderTime ? new Date(item.reminderTime) : null,
-        }));
+        return parsedData
+          .map((item: TodoItemType) => ({
+            ...item,
+            reminderTime: item.reminderTime
+              ? new Date(item.reminderTime)
+              : null,
+          }))
+          .sort(
+            (a: TodoItemType, b: TodoItemType) =>
+              STATUS_RANK[b.status] - STATUS_RANK[a.status],
+          );
       } catch (error) {
         console.error("Failed to parse saved todo list:", error);
       }
@@ -38,18 +50,10 @@ function TodoListContainer() {
   const [URLSearchParams] = useSearchParams();
   const currentFilter = URLSearchParams.get("status") || "all";
 
-  // Sort by status: doing first, then done
-  const sortedTodoList = [...todoList].sort((a, b) => {
-    const statusOrder = { doing: 1, done: 2 };
-    return statusOrder[a.status] - statusOrder[b.status];
-  });
-
   let filteredTodoList;
-  if (currentFilter === "all") filteredTodoList = sortedTodoList;
+  if (currentFilter === "all") filteredTodoList = todoList;
   else {
-    filteredTodoList = sortedTodoList.filter(
-      (item) => item.status === currentFilter,
-    );
+    filteredTodoList = todoList.filter((item) => item.status === currentFilter);
   }
 
   const toggleEditById = (Id: number) => {
@@ -57,12 +61,22 @@ function TodoListContainer() {
   };
 
   const editTodoItem = (newTodo: TodoItemType) => {
-    setTodoList((todoList) =>
-      todoList.map((item) => {
+    const originalTodoStatus = todoList.find(
+      (item) => item.id === newTodo.id,
+    )?.status;
+
+    const newTodoList = [
+      ...todoList.map((item) => {
         if (item.id !== newTodo.id) return item;
         else return newTodo;
       }),
-    );
+    ];
+    if (originalTodoStatus !== newTodo.status) {
+      // Status changed, move the item to the top or bottom based on status
+      newTodoList.sort((a, b) => STATUS_RANK[b.status] - STATUS_RANK[a.status]);
+    }
+
+    setTodoList(newTodoList);
     toast.success("Todo item updated!");
   };
 
@@ -87,50 +101,6 @@ function TodoListContainer() {
       }),
     );
     toast.success("Todo item deleted!");
-  };
-
-  const moveUpItem = (itemToMove: TodoItemType) => {
-    const index = todoList.findIndex((item) => item.id === itemToMove.id);
-
-    if (index === 0 || index === undefined) {
-      toast.error("Already the first item!");
-      return;
-    }
-
-    if (todoList[index].status !== todoList[index - 1].status) {
-      toast.error("Cannot move across different status groups!");
-      return;
-    }
-
-    const newTodoList = [...todoList];
-    [newTodoList[index - 1], newTodoList[index]] = [
-      newTodoList[index],
-      newTodoList[index - 1],
-    ];
-    setTodoList(newTodoList);
-  };
-
-  const moveDownItem = (itemToMove: TodoItemType) => {
-    const index = todoList.findIndex((item) => item.id === itemToMove.id);
-
-    if (index === todoList.length || (index === 0 && todoList.length === 1)) {
-      toast.error("Already the last item!");
-      return;
-    }
-
-    if (todoList[index].status !== todoList[index + 1].status) {
-      toast.error("Cannot move across different status groups!");
-      return;
-    }
-
-    console.log("move down!");
-
-    const newTodoList = [...todoList];
-    [newTodoList[index + 1], newTodoList[index]] = [
-      newTodoList[index],
-      newTodoList[index + 1],
-    ];
-    setTodoList(newTodoList);
   };
 
   return (
@@ -166,8 +136,6 @@ function TodoListContainer() {
                       setEditItemId(item.id === editItemId ? -1 : item.id);
                     }}
                     deleteTodoItem={deleteTodoItem}
-                    moveUpItem={moveUpItem}
-                    moveDownItem={moveDownItem}
                   />
                 </motion.li>
               ))}

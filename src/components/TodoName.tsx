@@ -11,13 +11,7 @@ type TodoNameProps = {
   onDelete: (item: TodoItemType) => void;
 };
 
-function TodoName({
-  item,
-  isEditing,
-  onToggleEdit,
-  onEdit,
-  onDelete,
-}: TodoNameProps) {
+function TodoName({ item, isEditing, onToggleEdit, onEdit }: TodoNameProps) {
   const { name, reminderTime } = item;
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -61,7 +55,7 @@ function TodoName({
         )}
       </span>
       {reminderTime && (
-        <div className="mt-1 flex items-center gap-1 text-xs text-green-600 dark:text-green-400">
+        <div className="mt-1 flex items-center gap-1 text-xs text-sky-600 dark:text-green-400">
           <HiClock />
           <span>{format(new Date(reminderTime), "yyyy/MM/dd HH:mm")}</span>
         </div>

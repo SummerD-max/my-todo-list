@@ -10,8 +10,6 @@ export interface TodoItemProps {
   beEdited: boolean;
   toggleEdit: () => void;
   deleteTodoItem: (itemToDelete: TodoItemType) => void;
-  moveUpItem: (item: TodoItemType) => void;
-  moveDownItem: (item: TodoItemType) => void;
 }
 
 function TodoItem({
@@ -20,8 +18,6 @@ function TodoItem({
   beEdited,
   toggleEdit,
   deleteTodoItem,
-  moveUpItem,
-  moveDownItem,
 }: TodoItemProps) {
   function handleTick() {
     editTodoItem({
@@ -45,8 +41,6 @@ function TodoItem({
         item={item}
         onEdit={editTodoItem}
         onDelete={deleteTodoItem}
-        onMoveUp={moveUpItem}
-        onMoveDown={moveDownItem}
       />
     </div>
   );
