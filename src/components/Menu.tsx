@@ -4,6 +4,8 @@ import { HiBars3 } from "react-icons/hi2";
 type MenuContextType = {
   openMenuId: string;
   setOpenMenuId: (id: string) => void;
+  position: { x: number; y: number };
+  setPosition: (pos: { x: number; y: number }) => void;
 };
 
 const MenuContext = createContext<MenuContextType | undefined>(undefined);
@@ -22,7 +24,9 @@ function Menu({ children }: { children: React.ReactNode }) {
 }
 
 function Toggle({ id }: { id: string }) {
-  const { openMenuId, setOpenMenuId, setPosition } = useContext(MenuContext);
+  const context = useContext(MenuContext);
+  if (!context) throw new Error("Toggle must be used within Menu");
+  const { openMenuId, setOpenMenuId, setPosition } = context;
 
   const isOpen = openMenuId === id;
 
@@ -42,7 +46,9 @@ function Toggle({ id }: { id: string }) {
 }
 
 function MenuList({ id, children }: { id: string; children: React.ReactNode }) {
-  const { openMenuId, setOpenMenuId, position } = useContext(MenuContext);
+  const context = useContext(MenuContext);
+  if (!context) throw new Error("MenuList must be used within Menu");
+  const { openMenuId, setOpenMenuId, position } = context;
 
   const ref = useRef<HTMLUListElement>(null);
 
