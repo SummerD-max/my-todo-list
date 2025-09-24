@@ -28,11 +28,7 @@ function TodoName({
   }, [isEditing]);
 
   function handleSave(value: string) {
-    if (!value.trim()) {
-      onDelete(item);
-    } else {
-      onEdit({ ...item, name: value });
-    }
+    onEdit({ ...item, name: value });
     onToggleEdit();
   }
 

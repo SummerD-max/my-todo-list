@@ -26,18 +26,19 @@ function TodoActions({
       <div className="sm:hidden">
         <Menu.Toggle id={`${item.id}-menu`} />
         <Menu.List id={`${item.id}-menu`}>
-          <li className="py-2">
-            <Modal.Open id={`${item.id}-details`}>
-              <button className="flex cursor-pointer gap-2 text-left text-lime-500 transition-all hover:text-lime-600">
-                <HiEye size={24} /> View Details
-              </button>
-            </Modal.Open>
-          </li>
+          <Modal.Open id={`${item.id}-details`}>
+            <Menu.Button type="primary">
+              <HiEye size={24} />
+              <span>View Details</span>
+            </Menu.Button>
+          </Modal.Open>
+
           <li className="py-2">
             <Modal.Open id={`${item.id}-confirmDelete`}>
-              <button className="flex cursor-pointer gap-2 text-left text-red-400 transition-all hover:text-red-600">
-                <HiTrash size={24} /> Delete
-              </button>
+              <Menu.Button type="danger">
+                <HiTrash size={24} />
+                <span>Delete</span>
+              </Menu.Button>
             </Modal.Open>
           </li>
         </Menu.List>
@@ -51,9 +52,6 @@ function TodoActions({
             <HiEye size={24} />
           </button>
         </Modal.Open>
-        <Modal.Window id={`${item.id}-details`}>
-          <TodoDetail item={item} editTodoItem={onEdit} />
-        </Modal.Window>
 
         {/* Delete Modal */}
         <Modal.Open id={`${item.id}-confirmDelete`}>
@@ -61,9 +59,6 @@ function TodoActions({
             <HiTrash size={24} />
           </button>
         </Modal.Open>
-        <Modal.Window id={`${item.id}-confirmDelete`}>
-          <ConfirmDelete deleteFn={() => onDelete(item)} />
-        </Modal.Window>
 
         {/* Move Buttons */}
         <div className="flex flex-col gap-1">
@@ -81,6 +76,13 @@ function TodoActions({
           </button>
         </div>
       </div>
+
+      <Modal.Window id={`${item.id}-details`}>
+        <TodoDetail item={item} editTodoItem={onEdit} />
+      </Modal.Window>
+      <Modal.Window id={`${item.id}-confirmDelete`}>
+        <ConfirmDelete deleteFn={() => onDelete(item)} />
+      </Modal.Window>
     </div>
   );
 }

@@ -84,13 +84,51 @@ function MenuList({ id, children }: { id: string; children: React.ReactNode }) {
         transform: "translateX(-100%)",
       }}
       ref={ref}
+      onClick={() => {
+        console.log("click menu");
+        setOpenMenuId("");
+      }}
     >
       {children}
     </ul>
   );
 }
 
+function MenuButton({
+  children,
+  onClick,
+  type,
+}: {
+  children: React.ReactNode;
+  onClick?: (e: React.MouseEvent<HTMLLIElement>) => void;
+  type: "primary" | "danger";
+}) {
+  const context = useContext(MenuContext);
+  if (!context) throw new Error("MenuButton must be used within Menu");
+  const { setOpenMenuId } = context;
+
+  return (
+    <li
+      onClick={(e) => {
+        onClick?.(e);
+        setOpenMenuId("");
+      }}
+      className="py-2"
+    >
+      <button
+        className={`flex cursor-pointer gap-2 text-left transition-all ${
+          type === "primary"
+            ? "text-lime-500 hover:text-lime-600"
+            : "text-red-400 hover:text-red-600"
+        }`}
+      >
+        {children}
+      </button>
+    </li>
+  );
+}
+
 Menu.Toggle = Toggle;
 Menu.List = MenuList;
-
+Menu.Button = MenuButton;
 export default Menu;
