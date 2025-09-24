@@ -7,6 +7,7 @@ import AddButton from "./AddButton";
 import Filter from "./Filter";
 import Modal from "./Modal";
 import TodoItem from "./TodoItem";
+import Menu from "./Menu";
 
 function TodoListContainer() {
   const [todoList, setTodoList] = useState<TodoItemType[]>(function () {
@@ -140,38 +141,40 @@ function TodoListContainer() {
         <AddButton AddTodoItem={AddTodoItem} todoList={todoList} />
       </div>
 
-      <Modal>
-        <ul className="mt-2 divide-y-1 divide-black/20 dark:divide-white/20">
-          <AnimatePresence>
-            {filteredTodoList.map((item) => (
-              <motion.li
-                key={item.id}
-                layout
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{
-                  duration: 0.1,
-                  ease: "easeInOut",
-                  layout: { duration: 0.2 },
-                }}
-              >
-                <TodoItem
-                  item={item}
-                  editTodoItem={editTodoItem}
-                  beEdited={editItemId === item.id}
-                  toggleEdit={() => {
-                    setEditItemId(item.id === editItemId ? -1 : item.id);
+      <Menu>
+        <Modal>
+          <ul className="mt-2 divide-y-1 divide-black/20 dark:divide-white/20">
+            <AnimatePresence>
+              {filteredTodoList.map((item) => (
+                <motion.li
+                  key={item.id}
+                  layout
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{
+                    duration: 0.1,
+                    ease: "easeInOut",
+                    layout: { duration: 0.2 },
                   }}
-                  deleteTodoItem={deleteTodoItem}
-                  moveUpItem={moveUpItem}
-                  moveDownItem={moveDownItem}
-                />
-              </motion.li>
-            ))}
-          </AnimatePresence>
-        </ul>
-      </Modal>
+                >
+                  <TodoItem
+                    item={item}
+                    editTodoItem={editTodoItem}
+                    beEdited={editItemId === item.id}
+                    toggleEdit={() => {
+                      setEditItemId(item.id === editItemId ? -1 : item.id);
+                    }}
+                    deleteTodoItem={deleteTodoItem}
+                    moveUpItem={moveUpItem}
+                    moveDownItem={moveDownItem}
+                  />
+                </motion.li>
+              ))}
+            </AnimatePresence>
+          </ul>
+        </Modal>
+      </Menu>
     </>
   );
 }

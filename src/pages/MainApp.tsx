@@ -7,7 +7,7 @@ function MainApp() {
 
   return (
     <div
-      className={`relative container mx-auto my-5 flex h-dvh flex-col items-center`}
+      className={`relative container mx-auto flex h-dvh flex-col items-center`}
     >
       <button
         className={`absolute top-2 right-2 cursor-pointer ${isDarkMode ? "text-gray-600" : "text-yellow-400"} transition-colors duration-500`}

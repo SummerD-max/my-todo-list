@@ -3,6 +3,7 @@ import type { TodoItem as TodoItemType } from "../types";
 import ConfirmDelete from "./ConfirmDelete";
 import Modal from "./Modal";
 import TodoDetail from "./TodoDetail";
+import Menu from "./Menu";
 
 type TodoActionsProps = {
   item: TodoItemType;
@@ -21,8 +22,30 @@ function TodoActions({
 }: TodoActionsProps) {
   return (
     <div className="flex-end col-span-full flex items-center justify-end gap-2 sm:col-span-2">
+      {/* Mobile */}
+      <div className="sm:hidden">
+        <Menu.Toggle id={`${item.id}-menu`} />
+        <Menu.List id={`${item.id}-menu`}>
+          <li className="py-2">
+            <Modal.Open id={`${item.id}-details`}>
+              <button className="flex cursor-pointer gap-2 text-left text-lime-500 transition-all hover:text-lime-600">
+                <HiEye size={24} /> View Details
+              </button>
+            </Modal.Open>
+          </li>
+          <li className="py-2">
+            <Modal.Open id={`${item.id}-confirmDelete`}>
+              <button className="flex cursor-pointer gap-2 text-left text-red-400 transition-all hover:text-red-600">
+                <HiTrash size={24} /> Delete
+              </button>
+            </Modal.Open>
+          </li>
+        </Menu.List>
+      </div>
+
+      {/* Desktop */}
       {/* Details Modal */}
-      <Modal>
+      <div className="hidden sm:flex sm:items-center sm:gap-2">
         <Modal.Open id={`${item.id}-details`}>
           <button className="cursor-pointer text-lime-500 underline transition-all hover:text-lime-600 hover:no-underline">
             <HiEye size={24} />
@@ -41,22 +64,22 @@ function TodoActions({
         <Modal.Window id={`${item.id}-confirmDelete`}>
           <ConfirmDelete deleteFn={() => onDelete(item)} />
         </Modal.Window>
-      </Modal>
 
-      {/* Move Buttons */}
-      <div className="flex flex-col gap-1">
-        <button
-          onClick={() => onMoveUp(item)}
-          className="cursor-pointer rounded-sm bg-green-700 p-0.5 text-white transition-all hover:bg-green-600"
-        >
-          <HiArrowUp size={18} />
-        </button>
-        <button
-          onClick={() => onMoveDown(item)}
-          className="cursor-pointer rounded-sm bg-green-700 p-0.5 text-white transition-all hover:bg-green-600"
-        >
-          <HiArrowDown size={18} />
-        </button>
+        {/* Move Buttons */}
+        <div className="flex flex-col gap-1">
+          <button
+            onClick={() => onMoveUp(item)}
+            className="cursor-pointer rounded-sm bg-green-700 p-0.5 text-white transition-all hover:bg-green-600"
+          >
+            <HiArrowUp size={18} />
+          </button>
+          <button
+            onClick={() => onMoveDown(item)}
+            className="cursor-pointer rounded-sm bg-green-700 p-0.5 text-white transition-all hover:bg-green-600"
+          >
+            <HiArrowDown size={18} />
+          </button>
+        </div>
       </div>
     </div>
   );
